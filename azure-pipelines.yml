@@ -1,0 +1,38 @@
+jobs:
+  - steps: &steps
+
+      - displayName: "install node"
+        task: NodeTool@0
+        inputs:
+          versionSpec: $(node_version)
+
+      - script: yarn
+      - script: yarn test
+
+      - ${{ if eq(parameters.node_version, 'stable') }}:
+        - script: yarn lint
+
+    job: Windows
+    pool:
+      vmImage: "win1803"
+    strategy:
+      matrix: &basic_matrix
+        node_6:
+          node_version: 6
+
+  - job: macOS
+    pool:
+      vmImage: "macOS-10.13"
+    steps: *steps
+    strategy:
+      matrix: *basic_matrix
+
+  - job: Linux
+    pool:
+      vmImage: "Ubuntu 16.04"
+    steps: *steps
+    strategy:
+      matrix:
+        <<: *basic_matrix
+        node_stable:
+          node_version: stable

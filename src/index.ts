@@ -1,5 +1,5 @@
-import * as ng from '@angular/compiler/esm2015/src/expression_parser/ast.js';
-import * as b from '@babel/types';
+import type * as ng from '@angular/compiler';
+import type * as b from '@babel/types';
 import { Context } from './context.js';
 import { InputNode, transform } from './transform.js';
 import { transformTemplateBindings } from './transform-microsyntax.js';

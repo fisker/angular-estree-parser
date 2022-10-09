@@ -1,4 +1,4 @@
-import * as ng from '@angular/compiler/esm2015/src/expression_parser/ast.js';
+import * as ng from '@angular/compiler';
 import * as b from '@babel/types';
 import { Context } from './context.js';
 import type {
@@ -176,8 +176,56 @@ export const transform = (
       return _c<NGEmptyExpression>('NGEmptyExpression', {}, node.span, {
         hasParentParens: isInParentParens,
       });
-    case 'FunctionCall': {
-      const { target, args } = node as ng.FunctionCall;
+    // case 'MethodCall':
+    // case 'SafeMethodCall': {
+    //   const isOptionalType = type === 'SafeMethodCall';
+    //   const { receiver, name, args } = node as
+    //     | ng.MethodCall
+    //     | ng.SafeMethodCall;
+    //   const tArgs =
+    //     args.length === 1
+    //       ? [_transformHasParentParens<b.Expression>(args[0])]
+    //       : args.map<b.Expression>(_t);
+    //   const nameEnd =
+    //     _findFrontChar(
+    //       /\S/,
+    //       _findFrontChar(
+    //         /\(/,
+    //         (tArgs.length === 0
+    //           ? _findFrontChar(/\)/, node.span.end - 1)
+    //           : _getOuterStart(tArgs[0])) - 1,
+    //       ) - 1,
+    //     ) + 1;
+    //   const tName = _c<b.Identifier>(
+    //     'Identifier',
+    //     { name },
+    //     { start: nameEnd - name.length, end: nameEnd },
+    //   );
+    //   const tReceiverAndName = _transformReceiverAndName(receiver, tName, {
+    //     computed: false,
+    //     optional: isOptionalType,
+    //   });
+    //   const isOptionalReceiver = _isOptionalReceiver(tReceiverAndName);
+    //   const nodeType =
+    //     isOptionalType || isOptionalReceiver
+    //       ? 'OptionalCallExpression'
+    //       : 'CallExpression';
+    //   return _c<b.CallExpression | b.OptionalCallExpression>(
+    //     nodeType,
+    //     {
+    //       callee: tReceiverAndName,
+    //       arguments: tArgs,
+    //       optional: nodeType === 'OptionalCallExpression' ? false : undefined,
+    //     },
+    //     {
+    //       start: _getOuterStart(tReceiverAndName),
+    //       end: node.span.end, // )
+    //     },
+    //     { hasParentParens: isInParentParens },
+    //   );
+    // }
+    case 'Call': {
+      const { receiver: target, args } = node as ng.Call;
       const tArgs =
         args.length === 1
           ? [_transformHasParentParens<b.Expression>(args[0])]
@@ -304,54 +352,6 @@ export const transform = (
           );
       }
     }
-    case 'MethodCall':
-    case 'SafeMethodCall': {
-      const isOptionalType = type === 'SafeMethodCall';
-      const { receiver, name, args } = node as
-        | ng.MethodCall
-        | ng.SafeMethodCall;
-      const tArgs =
-        args.length === 1
-          ? [_transformHasParentParens<b.Expression>(args[0])]
-          : args.map<b.Expression>(_t);
-      const nameEnd =
-        _findFrontChar(
-          /\S/,
-          _findFrontChar(
-            /\(/,
-            (tArgs.length === 0
-              ? _findFrontChar(/\)/, node.span.end - 1)
-              : _getOuterStart(tArgs[0])) - 1,
-          ) - 1,
-        ) + 1;
-      const tName = _c<b.Identifier>(
-        'Identifier',
-        { name },
-        { start: nameEnd - name.length, end: nameEnd },
-      );
-      const tReceiverAndName = _transformReceiverAndName(receiver, tName, {
-        computed: false,
-        optional: isOptionalType,
-      });
-      const isOptionalReceiver = _isOptionalReceiver(tReceiverAndName);
-      const nodeType =
-        isOptionalType || isOptionalReceiver
-          ? 'OptionalCallExpression'
-          : 'CallExpression';
-      return _c<b.CallExpression | b.OptionalCallExpression>(
-        nodeType,
-        {
-          callee: tReceiverAndName,
-          arguments: tArgs,
-          optional: nodeType === 'OptionalCallExpression' ? false : undefined,
-        },
-        {
-          start: _getOuterStart(tReceiverAndName),
-          end: node.span.end, // )
-        },
-        { hasParentParens: isInParentParens },
-      );
-    }
     case 'NonNullAssert': {
       const { expression } = node as ng.NonNullAssert;
       const tExpression = _t<b.Expression>(expression);
@@ -459,18 +459,18 @@ export const transform = (
         { hasParentParens: isInParentParens },
       );
     }
-    case 'Quote': {
-      const { prefix, uninterpretedExpression } = node as ng.Quote;
-      return _c<NGQuotedExpression>(
-        'NGQuotedExpression',
-        {
-          prefix,
-          value: uninterpretedExpression,
-        },
-        node.span,
-        { hasParentParens: isInParentParens },
-      );
-    }
+    // case 'Quote': {
+    //   const { prefix, uninterpretedExpression } = node as ng.Quote;
+    //   return _c<NGQuotedExpression>(
+    //     'NGQuotedExpression',
+    //     {
+    //       prefix,
+    //       value: uninterpretedExpression,
+    //     },
+    //     node.span,
+    //     { hasParentParens: isInParentParens },
+    //   );
+    // }
     // istanbul ignore next
     default:
       throw new Error(`Unexpected node ${type}`);

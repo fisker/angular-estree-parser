@@ -983,13 +983,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:29.5.7":
-  version: 29.5.7
-  resolution: "@types/jest@npm:29.5.7"
+"@types/jest@npm:29.5.12":
+  version: 29.5.12
+  resolution: "@types/jest@npm:29.5.12"
   dependencies:
     expect: "npm:^29.0.0"
     pretty-format: "npm:^29.0.0"
-  checksum: 64a31afa2c8bd003c7e637c36933170f731341957150274e518564e513d6dd7cb8dae61afea29ff703c2c8d3bdbbc8fb97095029a4fc91f55707f26753557583
+  checksum: 312e8dcf92cdd5a5847d6426f0940829bca6fe6b5a917248f3d7f7ef5d85c9ce78ef05e47d2bbabc40d41a930e0e36db2d443d2610a9e3db9062da2d5c904211
   languageName: node
   linkType: hard
 
@@ -1302,7 +1302,7 @@ __metadata:
     "@babel/types": "npm:7.23.0"
     "@types/babel-types": "npm:7.0.13"
     "@types/babel__code-frame": "npm:7.0.5"
-    "@types/jest": "npm:29.5.7"
+    "@types/jest": "npm:29.5.12"
     "@types/prettier": "npm:3.0.0"
     "@typescript-eslint/eslint-plugin": "npm:6.9.1"
     "@typescript-eslint/parser": "npm:6.9.1"
